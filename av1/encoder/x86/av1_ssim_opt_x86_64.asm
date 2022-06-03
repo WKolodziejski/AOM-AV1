@@ -138,7 +138,7 @@ sym(av1_ssim_parms_16x16_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void ssim_parms_sse2(
 ;    unsigned char *s,
@@ -219,4 +219,4 @@ sym(av1_ssim_parms_8x8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse

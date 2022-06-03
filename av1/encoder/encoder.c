@@ -2562,7 +2562,7 @@ static int encode_with_recode_loop(AV1_COMP *cpi, size_t *size, uint8_t *dest) {
 #if !CONFIG_RD_COMMAND
   // Determine whether to use screen content tools using two fast encoding.
   if (!cpi->sf.hl_sf.disable_extra_sc_testing)
-    av1_determine_sc_tools_with_encoding(cpi, q);
+    av1_determine_sc_tools_with_encoding(cpi, q); //Global motion
 #endif  // !CONFIG_RD_COMMAND
 
 #if CONFIG_TUNE_VMAF
@@ -2725,7 +2725,7 @@ static int encode_with_recode_loop(AV1_COMP *cpi, size_t *size, uint8_t *dest) {
     }
 
     // transform / motion compensation build reconstruction frame
-    av1_encode_frame(cpi);
+    av1_encode_frame(cpi); //local motion
 
 #if CONFIG_FRAME_PARALLEL_ENCODE
     // Disable mv_stats collection for parallel frames based on update flag.

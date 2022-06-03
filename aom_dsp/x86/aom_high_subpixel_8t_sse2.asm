@@ -270,7 +270,7 @@ sym(aom_highbd_filter_block1d4_v8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void aom_filter_block1d8_v8_sse2
 ;(
@@ -329,7 +329,7 @@ sym(aom_highbd_filter_block1d8_v8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void aom_filter_block1d16_v8_sse2
 ;(
@@ -392,7 +392,7 @@ sym(aom_highbd_filter_block1d16_v8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void aom_filter_block1d4_h8_sse2
 ;(
@@ -467,7 +467,7 @@ sym(aom_highbd_filter_block1d4_h8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void aom_filter_block1d8_h8_sse2
 ;(
@@ -533,7 +533,7 @@ sym(aom_highbd_filter_block1d8_h8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 ;void aom_filter_block1d16_h8_sse2
 ;(
@@ -610,4 +610,4 @@ sym(aom_highbd_filter_block1d16_h8_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse

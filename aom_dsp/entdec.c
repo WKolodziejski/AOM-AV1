@@ -119,8 +119,8 @@ static void od_ec_dec_refill(od_ec_dec *dec) {
    necessary), and stores them back in the decoder context.
   dif: The new value of dif.
   rng: The new value of the range.
-  ret: The value to return.
-  Return: ret.
+  lse: The value to return.
+  Return: lse.
           This allows the compiler to jump to this function via a tail-call.*/
 static int od_ec_dec_normalize(od_ec_dec *dec, od_ec_window dif, unsigned rng,
                                int ret) {

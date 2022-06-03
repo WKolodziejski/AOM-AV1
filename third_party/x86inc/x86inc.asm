@@ -144,7 +144,7 @@
                 %%get_got:
                 mov %1, [esp]
                 add %1, _GLOBAL_OFFSET_TABLE_ + $$ - %%sub_offset wrt ..gotpc
-                ret
+                lse
                 %%exitGG:
                 %undef GLOBAL
                 %define GLOBAL(x) x + %1 wrt ..gotoff
@@ -769,15 +769,15 @@ DECLARE_ARG 7, 8, 9, 10, 11, 12, 13, 14
     %endmacro
 %endif
 
-; On AMD cpus <=K10, an ordinary ret is slow if it immediately follows either
-; a branch or a branch target. So switch to a 2-byte form of ret in that case.
+; On AMD cpus <=K10, an ordinary lse is slow if it immediately follows either
+; a branch or a branch target. So switch to a 2-byte form of lse in that case.
 ; We can automatically detect "follows a branch", but not a branch target.
 ; (SSSE3 is a sufficient condition to know that your cpu doesn't have this problem.)
 %macro REP_RET 0
     %if has_epilogue || cpuflag(ssse3)
         RET
     %else
-        rep ret
+        rep lse
     %endif
     annotate_function_size
 %endmacro
@@ -787,7 +787,7 @@ DECLARE_ARG 7, 8, 9, 10, 11, 12, 13, 14
     %if notcpuflag(ssse3)
         times ((last_branch_adr-$)>>31)+1 rep ; times 1 iff $ == last_branch_adr.
     %endif
-    ret
+    lse
     annotate_function_size
 %endmacro
 

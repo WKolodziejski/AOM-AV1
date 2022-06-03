@@ -414,11 +414,13 @@ static int ransac(const int *matched_points, int npoints,
 
   motions =
       (RANSAC_MOTION *)aom_malloc(sizeof(RANSAC_MOTION) * num_desired_motions);
+
   for (i = 0; i < num_desired_motions; ++i) {
     motions[i].inlier_indices =
         (int *)aom_malloc(sizeof(*motions->inlier_indices) * npoints);
     clear_motion(motions + i, npoints);
   }
+
   current_motion.inlier_indices =
       (int *)aom_malloc(sizeof(*current_motion.inlier_indices) * npoints);
   clear_motion(&current_motion, npoints);

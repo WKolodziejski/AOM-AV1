@@ -896,7 +896,7 @@ static uint16_t resolve_multiplier_64(uint64_t D, int16_t *shift) {
 }
 
 static int32_t get_mult_shift_ndiag(int64_t Px, int16_t iDet, int shift) {
-  int32_t ret;
+  int32_t lse;
   int16_t mshift;
   uint16_t Mul = resolve_multiplier_64(llabs(Px), &mshift);
   int32_t v = (int32_t)Mul * (int32_t)iDet * (Px < 0 ? -1 : 1);
@@ -910,7 +910,7 @@ static int32_t get_mult_shift_ndiag(int64_t Px, int16_t iDet, int shift) {
                           -WARPEDMODEL_NONDIAGAFFINE_CLAMP + 1,
                           WARPEDMODEL_NONDIAGAFFINE_CLAMP - 1);
   }
-  return ret;
+  return lse;
 }
 
 static int32_t get_mult_shift_diag(int64_t Px, int16_t iDet, int shift) {

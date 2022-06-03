@@ -13,6 +13,9 @@ if(AOM_AV1_AV1_CMAKE_)
 endif() # AOM_AV1_AV1_CMAKE_
 set(AOM_AV1_AV1_CMAKE_ 1)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 list(APPEND AOM_AV1_COMMON_SOURCES
             "${AOM_ROOT}/common/args_helper.h"
             "${AOM_ROOT}/common/args_helper.c"
@@ -115,7 +118,42 @@ list(APPEND AOM_AV1_DECODER_SOURCES
             "${AOM_ROOT}/av1/decoder/obu.h"
             "${AOM_ROOT}/av1/decoder/obu.c")
 
+#list(APPEND AOM_AV1_WILLIAM_SOURCES
+#        "${AOM_ROOT}/av1/encoder/william/distribution.h"
+#        "${AOM_ROOT}/av1/encoder/william/estimator.h"
+#        "${AOM_ROOT}/av1/encoder/william/homography_estimator.cpp"
+#        "${AOM_ROOT}/av1/encoder/william/inline_support.h"
+#        "${AOM_ROOT}/av1/encoder/william/line_estimator.cpp"
+#        "${AOM_ROOT}/av1/encoder/william/logging.h"
+#        "${AOM_ROOT}/av1/encoder/william/mle_quality_measurement.h"
+#        "${AOM_ROOT}/av1/encoder/william/mlesac.h"
+#        "${AOM_ROOT}/av1/encoder/william/mlesac_test.cpp"
+#        "${AOM_ROOT}/av1/encoder/william/prosac.h"
+#        "${AOM_ROOT}/av1/encoder/william/prosac_sampler.h"
+#        "${AOM_ROOT}/av1/encoder/william/prosac_test.cpp"
+#        "${AOM_ROOT}/av1/encoder/william/quality_measurement.h"
+#        "${AOM_ROOT}/av1/encoder/william/random.h"
+#        "${AOM_ROOT}/av1/encoder/william/random_sampler.h"
+#        "${AOM_ROOT}/av1/encoder/william/ransac.h"
+#        "${AOM_ROOT}/av1/encoder/william/ransac_test.cpp"
+#        "${AOM_ROOT}/av1/encoder/william/sample_consensus_estimator.h"
+#        "${AOM_ROOT}/av1/encoder/william/sampler.h"
+#        "${AOM_ROOT}/av1/encoder/william/"
+#        "${AOM_ROOT}/av1/encoder/william/"
+#        )
+
 list(APPEND AOM_AV1_ENCODER_SOURCES
+            "${AOM_ROOT}/av1/encoder/william/rtl/Base.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/Affine.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/AffineEstimator.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/RotZoomEstimator.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/LMedS.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/MLESAC.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/MSAC.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/RANSAC.cpp"
+            "${AOM_ROOT}/av1/encoder/william/rtl/RTL.cpp"
+            "${AOM_ROOT}/av1/encoder/william/sac.cpp"
+            "${AOM_ROOT}/av1/encoder/william/sac.h"
             "${AOM_ROOT}/av1/av1_cx_iface.c"
             "${AOM_ROOT}/av1/encoder/aq_complexity.c"
             "${AOM_ROOT}/av1/encoder/aq_complexity.h"

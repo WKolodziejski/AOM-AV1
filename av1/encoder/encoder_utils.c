@@ -1050,7 +1050,7 @@ void av1_determine_sc_tools_with_encoding(AV1_COMP *cpi, const int q_orig) {
     av1_set_variance_partition_thresholds(cpi, q_for_screen_content_quick_run,
                                           0);
     // transform / motion compensation build reconstruction frame
-    av1_encode_frame(cpi);
+    av1_encode_frame(cpi); //codifica 2 vezes?
     // Screen content decision
     screen_content_tools_determination(
         cpi, allow_screen_content_tools_orig_decision,

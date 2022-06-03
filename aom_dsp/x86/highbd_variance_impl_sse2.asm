@@ -166,7 +166,7 @@ sym(aom_highbd_calc16x16var_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 
 ;unsigned int aom_highbd_calc8x8var_sse2
@@ -315,4 +315,4 @@ sym(aom_highbd_calc8x8var_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse

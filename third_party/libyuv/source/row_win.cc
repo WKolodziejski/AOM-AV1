@@ -279,7 +279,7 @@ __declspec(naked) void J400ToARGBRow_SSE2(const uint8_t* src_y,
     lea        edx, [edx + 32]
     sub        ecx, 8
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -311,7 +311,7 @@ __declspec(naked) void J400ToARGBRow_AVX2(const uint8_t* src_y,
     sub         ecx, 16
     jg          convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_J400TOARGBROW_AVX2
@@ -351,7 +351,7 @@ __declspec(naked) void RGB24ToARGBRow_SSSE3(const uint8_t* src_rgb24,
     lea       edx, [edx + 64]
     sub       ecx, 16
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -390,7 +390,7 @@ __declspec(naked) void RAWToARGBRow_SSSE3(const uint8_t* src_raw,
     lea       edx, [edx + 64]
     sub       ecx, 16
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -419,7 +419,7 @@ __declspec(naked) void RAWToRGB24Row_SSSE3(const uint8_t* src_raw,
     lea       edx, [edx + 24]
     sub       ecx, 8
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -475,7 +475,7 @@ __declspec(naked) void RGB565ToARGBRow_SSE2(const uint8_t* src_rgb565,
     lea       eax, [eax + 16]
     sub       ecx, 8
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -531,7 +531,7 @@ __declspec(naked) void RGB565ToARGBRow_AVX2(const uint8_t* src_rgb565,
     sub       ecx, 16
     jg        convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_RGB565TOARGBROW_AVX2
@@ -583,7 +583,7 @@ __declspec(naked) void ARGB1555ToARGBRow_AVX2(const uint8_t* src_argb1555,
     sub       ecx, 16
     jg        convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGB1555TOARGBROW_AVX2
@@ -621,7 +621,7 @@ __declspec(naked) void ARGB4444ToARGBRow_AVX2(const uint8_t* src_argb4444,
     sub       ecx, 16
     jg        convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGB4444TOARGBROW_AVX2
@@ -675,7 +675,7 @@ __declspec(naked) void ARGB1555ToARGBRow_SSE2(const uint8_t* src_argb1555,
     lea       eax, [eax + 16]
     sub       ecx, 8
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -714,7 +714,7 @@ __declspec(naked) void ARGB4444ToARGBRow_SSE2(const uint8_t* src_argb4444,
     lea       eax, [eax + 16]
     sub       ecx, 8
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -753,7 +753,7 @@ __declspec(naked) void ARGBToRGB24Row_SSSE3(const uint8_t* src_argb,
     lea       edx, [edx + 48]
     sub       ecx, 16
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -792,7 +792,7 @@ __declspec(naked) void ARGBToRAWRow_SSSE3(const uint8_t* src_argb,
     lea       edx, [edx + 48]
     sub       ecx, 16
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -830,7 +830,7 @@ __declspec(naked) void ARGBToRGB565Row_SSE2(const uint8_t* src_argb,
     lea       edx, [edx + 8]
     sub       ecx, 4
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -876,7 +876,7 @@ __declspec(naked) void ARGBToRGB565DitherRow_SSE2(const uint8_t* src_argb,
     lea       edx, [edx + 8]
     sub       ecx, 4
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -919,7 +919,7 @@ __declspec(naked) void ARGBToRGB565DitherRow_AVX2(const uint8_t* src_argb,
     sub        ecx, 8
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTORGB565DITHERROW_AVX2
@@ -963,7 +963,7 @@ __declspec(naked) void ARGBToARGB1555Row_SSE2(const uint8_t* src_argb,
     lea       edx, [edx + 8]
     sub       ecx, 4
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -993,7 +993,7 @@ __declspec(naked) void ARGBToARGB4444Row_SSE2(const uint8_t* src_argb,
     lea       edx, [edx + 8]
     sub       ecx, 4
     jg        convertloop
-    ret
+    lse
   }
 }
 
@@ -1030,7 +1030,7 @@ __declspec(naked) void ARGBToRGB565Row_AVX2(const uint8_t* src_argb,
     sub        ecx, 8
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTORGB565ROW_AVX2
@@ -1071,7 +1071,7 @@ __declspec(naked) void ARGBToARGB1555Row_AVX2(const uint8_t* src_argb,
     sub        ecx, 8
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTOARGB1555ROW_AVX2
@@ -1103,7 +1103,7 @@ __declspec(naked) void ARGBToARGB4444Row_AVX2(const uint8_t* src_argb,
     sub        ecx, 8
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTOARGB4444ROW_AVX2
@@ -1139,7 +1139,7 @@ __declspec(naked) void ARGBToYRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -1176,7 +1176,7 @@ __declspec(naked) void ARGBToYJRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -1218,7 +1218,7 @@ __declspec(naked) void ARGBToYRow_AVX2(const uint8_t* src_argb,
     sub        ecx, 32
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  //  HAS_ARGBTOYROW_AVX2
@@ -1260,7 +1260,7 @@ __declspec(naked) void ARGBToYJRow_AVX2(const uint8_t* src_argb,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  //  HAS_ARGBTOYJROW_AVX2
@@ -1295,7 +1295,7 @@ __declspec(naked) void BGRAToYRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -1329,7 +1329,7 @@ __declspec(naked) void ABGRToYRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -1363,7 +1363,7 @@ __declspec(naked) void RGBAToYRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -1435,7 +1435,7 @@ __declspec(naked) void ARGBToUVRow_SSSE3(const uint8_t* src_argb0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1508,7 +1508,7 @@ __declspec(naked) void ARGBToUVJRow_SSSE3(const uint8_t* src_argb0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1575,7 +1575,7 @@ __declspec(naked) void ARGBToUVRow_AVX2(const uint8_t* src_argb0,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTOUVROW_AVX2
@@ -1644,7 +1644,7 @@ __declspec(naked) void ARGBToUVJRow_AVX2(const uint8_t* src_argb0,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTOUVJROW_AVX2
@@ -1703,7 +1703,7 @@ __declspec(naked) void ARGBToUV444Row_SSSE3(const uint8_t* src_argb0,
     jg         convertloop
 
     pop        edi
-    ret
+    lse
   }
 }
 
@@ -1775,7 +1775,7 @@ __declspec(naked) void BGRAToUVRow_SSSE3(const uint8_t* src_argb0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1847,7 +1847,7 @@ __declspec(naked) void ABGRToUVRow_SSSE3(const uint8_t* src_argb0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1919,7 +1919,7 @@ __declspec(naked) void RGBAToUVRow_SSSE3(const uint8_t* src_argb0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBTOYROW_SSSE3
@@ -2096,7 +2096,7 @@ __declspec(naked) void I422ToARGBRow_AVX2(
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_I422TOARGBROW_AVX2
@@ -2139,7 +2139,7 @@ __declspec(naked) void I422AlphaToARGBRow_AVX2(
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_I422ALPHATOARGBROW_AVX2
@@ -2178,7 +2178,7 @@ __declspec(naked) void I444ToARGBRow_AVX2(
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_I444TOARGBROW_AVX2
@@ -2213,7 +2213,7 @@ __declspec(naked) void NV12ToARGBRow_AVX2(
     pop        ebx
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_NV12TOARGBROW_AVX2
@@ -2248,7 +2248,7 @@ __declspec(naked) void NV21ToARGBRow_AVX2(
     pop        ebx
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_NV21TOARGBROW_AVX2
@@ -2279,7 +2279,7 @@ __declspec(naked) void YUY2ToARGBRow_AVX2(
 
     pop        ebx
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_YUY2TOARGBROW_AVX2
@@ -2310,7 +2310,7 @@ __declspec(naked) void UYVYToARGBRow_AVX2(
 
     pop        ebx
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_UYVYTOARGBROW_AVX2
@@ -2350,7 +2350,7 @@ __declspec(naked) void I422ToRGBARow_AVX2(
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_I422TORGBAROW_AVX2
@@ -2581,7 +2581,7 @@ __declspec(naked) void I444ToARGBRow_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2619,7 +2619,7 @@ __declspec(naked) void I422ToRGB24Row_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2662,7 +2662,7 @@ __declspec(naked) void I422ToRGB565Row_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2699,7 +2699,7 @@ __declspec(naked) void I422ToARGBRow_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2739,7 +2739,7 @@ __declspec(naked) void I422AlphaToARGBRow_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2771,7 +2771,7 @@ __declspec(naked) void NV12ToARGBRow_SSSE3(
 
     pop        ebx
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2803,7 +2803,7 @@ __declspec(naked) void NV21ToARGBRow_SSSE3(
 
     pop        ebx
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -2831,7 +2831,7 @@ __declspec(naked) void YUY2ToARGBRow_SSSE3(
     jg         convertloop
 
     pop        ebx
-    ret
+    lse
   }
 }
 
@@ -2859,7 +2859,7 @@ __declspec(naked) void UYVYToARGBRow_SSSE3(
     jg         convertloop
 
     pop        ebx
-    ret
+    lse
   }
 }
 
@@ -2893,7 +2893,7 @@ __declspec(naked) void I422ToRGBARow_SSSE3(
     pop        ebx
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_I422TOARGBROW_SSSE3
@@ -2941,7 +2941,7 @@ __declspec(naked) void I400ToARGBRow_SSE2(const uint8_t* y_buf,
     lea        edx,  [edx + 32]
     sub        ecx, 8
     jg         convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_I400TOARGBROW_SSE2
@@ -2992,7 +2992,7 @@ __declspec(naked) void I400ToARGBRow_AVX2(const uint8_t* y_buf,
     sub        ecx, 16
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_I400TOARGBROW_AVX2
@@ -3019,7 +3019,7 @@ __declspec(naked) void MirrorRow_SSSE3(const uint8_t* src,
     lea       edx, [edx + 16]
     sub       ecx, 16
     jg        convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_MIRRORROW_SSSE3
@@ -3043,7 +3043,7 @@ __declspec(naked) void MirrorRow_AVX2(const uint8_t* src,
     sub       ecx, 32
     jg        convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_MIRRORROW_AVX2
@@ -3078,7 +3078,7 @@ __declspec(naked) void MirrorSplitUVRow_SSSE3(const uint8_t* src,
     jg        convertloop
 
     pop       edi
-    ret
+    lse
   }
 }
 #endif  // HAS_MIRRORSPLITUVROW_SSSE3
@@ -3101,7 +3101,7 @@ __declspec(naked) void ARGBMirrorRow_SSE2(const uint8_t* src,
     lea       edx, [edx + 16]
     sub       ecx, 4
     jg        convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBMIRRORROW_SSE2
@@ -3126,7 +3126,7 @@ __declspec(naked) void ARGBMirrorRow_AVX2(const uint8_t* src,
     sub       ecx, 8
     jg        convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBMIRRORROW_AVX2
@@ -3165,7 +3165,7 @@ __declspec(naked) void SplitUVRow_SSE2(const uint8_t* src_uv,
     jg         convertloop
 
     pop        edi
-    ret
+    lse
   }
 }
 
@@ -3206,7 +3206,7 @@ __declspec(naked) void SplitUVRow_AVX2(const uint8_t* src_uv,
 
     pop        edi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_SPLITUVROW_AVX2
@@ -3238,7 +3238,7 @@ __declspec(naked) void MergeUVRow_SSE2(const uint8_t* src_u,
     jg         convertloop
 
     pop        edi
-    ret
+    lse
   }
 }
 #endif  //  HAS_MERGEUVROW_SSE2
@@ -3272,7 +3272,7 @@ __declspec(naked) void MergeUVRow_AVX2(const uint8_t* src_u,
 
     pop        edi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  //  HAS_MERGEUVROW_AVX2
@@ -3300,7 +3300,7 @@ __declspec(naked) void CopyRow_SSE2(const uint8_t* src,
     lea        edx, [edx + 32]
     sub        ecx, 32
     jg         convertloopa
-    ret
+    lse
 
   convertloopu:
     movdqu     xmm0, [eax]
@@ -3311,7 +3311,7 @@ __declspec(naked) void CopyRow_SSE2(const uint8_t* src,
     lea        edx, [edx + 32]
     sub        ecx, 32
     jg         convertloopu
-    ret
+    lse
   }
 }
 #endif  // HAS_COPYROW_SSE2
@@ -3337,7 +3337,7 @@ __declspec(naked) void CopyRow_AVX(const uint8_t* src,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_COPYROW_AVX
@@ -3355,7 +3355,7 @@ __declspec(naked) void CopyRow_ERMS(const uint8_t* src,
     rep movsb
     mov        edi, edx
     mov        esi, eax
-    ret
+    lse
   }
 }
 
@@ -3391,7 +3391,7 @@ __declspec(naked) void ARGBCopyAlphaRow_SSE2(const uint8_t* src,
     sub        ecx, 8
     jg         convertloop
 
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOPYALPHAROW_SSE2
@@ -3421,7 +3421,7 @@ __declspec(naked) void ARGBCopyAlphaRow_AVX2(const uint8_t* src,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOPYALPHAROW_AVX2
@@ -3449,7 +3449,7 @@ __declspec(naked) void ARGBExtractAlphaRow_SSE2(const uint8_t* src_argb,
     sub        ecx, 8
     jg         extractloop
 
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBEXTRACTALPHAROW_SSE2
@@ -3485,7 +3485,7 @@ __declspec(naked) void ARGBExtractAlphaRow_AVX2(const uint8_t* src_argb,
     jg         extractloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBEXTRACTALPHAROW_AVX2
@@ -3524,7 +3524,7 @@ __declspec(naked) void ARGBCopyYToAlphaRow_SSE2(const uint8_t* src,
     sub        ecx, 8
     jg         convertloop
 
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOPYYTOALPHAROW_SSE2
@@ -3556,7 +3556,7 @@ __declspec(naked) void ARGBCopyYToAlphaRow_AVX2(const uint8_t* src,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOPYYTOALPHAROW_AVX2
@@ -3575,7 +3575,7 @@ __declspec(naked) void SetRow_X86(uint8_t* dst, uint8_t v8, int width) {
     shr        ecx, 2
     rep stosd
     mov        edi, edx
-    ret
+    lse
   }
 }
 
@@ -3588,7 +3588,7 @@ __declspec(naked) void SetRow_ERMS(uint8_t* dst, uint8_t v8, int width) {
     mov        ecx, [esp + 12]  // width
     rep stosb
     mov        edi, edx
-    ret
+    lse
   }
 }
 
@@ -3603,7 +3603,7 @@ __declspec(naked) void ARGBSetRow_X86(uint8_t* dst_argb,
     mov        ecx, [esp + 12]  // width
     rep stosd
     mov        edi, edx
-    ret
+    lse
   }
 }
 #endif  // HAS_SETROW_X86
@@ -3632,7 +3632,7 @@ __declspec(naked) void YUY2ToYRow_AVX2(const uint8_t* src_yuy2,
     sub        ecx, 32
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -3678,7 +3678,7 @@ __declspec(naked) void YUY2ToUVRow_AVX2(const uint8_t* src_yuy2,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -3718,7 +3718,7 @@ __declspec(naked) void YUY2ToUV422Row_AVX2(const uint8_t* src_yuy2,
 
     pop        edi
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -3743,7 +3743,7 @@ __declspec(naked) void UYVYToYRow_AVX2(const uint8_t* src_uyvy,
     sub        ecx, 32
     jg         convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -3789,7 +3789,7 @@ __declspec(naked) void UYVYToUVRow_AVX2(const uint8_t* src_uyvy,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -3829,7 +3829,7 @@ __declspec(naked) void UYVYToUV422Row_AVX2(const uint8_t* src_uyvy,
 
     pop        edi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_YUY2TOYROW_AVX2
@@ -3856,7 +3856,7 @@ __declspec(naked) void YUY2ToYRow_SSE2(const uint8_t* src_yuy2,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -3901,7 +3901,7 @@ __declspec(naked) void YUY2ToUVRow_SSE2(const uint8_t* src_yuy2,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -3938,7 +3938,7 @@ __declspec(naked) void YUY2ToUV422Row_SSE2(const uint8_t* src_yuy2,
     jg         convertloop
 
     pop        edi
-    ret
+    lse
   }
 }
 
@@ -3961,7 +3961,7 @@ __declspec(naked) void UYVYToYRow_SSE2(const uint8_t* src_uyvy,
     lea        edx, [edx + 16]
     sub        ecx, 16
     jg         convertloop
-    ret
+    lse
   }
 }
 
@@ -4006,7 +4006,7 @@ __declspec(naked) void UYVYToUVRow_SSE2(const uint8_t* src_uyvy,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -4043,7 +4043,7 @@ __declspec(naked) void UYVYToUV422Row_SSE2(const uint8_t* src_uyvy,
     jg         convertloop
 
     pop        edi
-    ret
+    lse
   }
 }
 #endif  // HAS_YUY2TOYROW_SSE2
@@ -4100,7 +4100,7 @@ __declspec(naked) void BlendPlaneRow_SSSE3(const uint8_t* src0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_BLENDPLANEROW_SSSE3
@@ -4164,7 +4164,7 @@ __declspec(naked) void BlendPlaneRow_AVX2(const uint8_t* src0,
     pop         edi
     pop         esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_BLENDPLANEROW_AVX2
@@ -4252,7 +4252,7 @@ __declspec(naked) void ARGBBlendRow_SSSE3(const uint8_t* src_argb0,
 
   convertloop1b:
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBBLENDROW_SSSE3
@@ -4301,7 +4301,7 @@ __declspec(naked) void ARGBAttenuateRow_SSSE3(const uint8_t* src_argb,
     sub        ecx, 4
     jg         convertloop
 
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBATTENUATEROW_SSSE3
@@ -4342,7 +4342,7 @@ __declspec(naked) void ARGBAttenuateRow_AVX2(const uint8_t* src_argb,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBATTENUATEROW_AVX2
@@ -4393,7 +4393,7 @@ __declspec(naked) void ARGBUnattenuateRow_SSE2(const uint8_t* src_argb,
     pop        edi
     pop        esi
     pop        ebx
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBUNATTENUATEROW_SSE2
@@ -4435,7 +4435,7 @@ __declspec(naked) void ARGBUnattenuateRow_AVX2(const uint8_t* src_argb,
     jg         convertloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #else   // USE_GATHER
@@ -4500,7 +4500,7 @@ __declspec(naked) void ARGBUnattenuateRow_AVX2(const uint8_t* src_argb,
     pop        esi
     pop        ebx
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // USE_GATHER
@@ -4545,7 +4545,7 @@ __declspec(naked) void ARGBGrayRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 32]
     sub        ecx, 8
     jg         convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBGRAYROW_SSSE3
@@ -4611,7 +4611,7 @@ __declspec(naked) void ARGBSepiaRow_SSSE3(uint8_t* dst_argb, int width) {
     lea        eax, [eax + 32]
     sub        ecx, 8
     jg         convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBSEPIAROW_SSSE3
@@ -4676,7 +4676,7 @@ __declspec(naked) void ARGBColorMatrixRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 32]
     sub        ecx, 8
     jg         convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOLORMATRIXROW_SSSE3
@@ -4723,7 +4723,7 @@ __declspec(naked) void ARGBQuantizeRow_SSE2(uint8_t* dst_argb,
     lea        eax, [eax + 16]
     sub        ecx, 4
     jg         convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBQUANTIZEROW_SSE2
@@ -4758,7 +4758,7 @@ __declspec(naked) void ARGBShadeRow_SSE2(const uint8_t* src_argb,
     sub        ecx, 4
     jg         convertloop
 
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBSHADEROW_SSE2
@@ -4797,7 +4797,7 @@ __declspec(naked) void ARGBMultiplyRow_SSE2(const uint8_t* src_argb0,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBMULTIPLYROW_SSE2
@@ -4847,7 +4847,7 @@ __declspec(naked) void ARGBAddRow_SSE2(const uint8_t* src_argb0,
 
  convertloop19:
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBADDROW_SSE2
@@ -4877,7 +4877,7 @@ __declspec(naked) void ARGBSubtractRow_SSE2(const uint8_t* src_argb0,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBSUBTRACTROW_SSE2
@@ -4915,7 +4915,7 @@ __declspec(naked) void ARGBMultiplyRow_AVX2(const uint8_t* src_argb0,
 
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBMULTIPLYROW_AVX2
@@ -4945,7 +4945,7 @@ __declspec(naked) void ARGBAddRow_AVX2(const uint8_t* src_argb0,
 
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBADDROW_AVX2
@@ -4975,7 +4975,7 @@ __declspec(naked) void ARGBSubtractRow_AVX2(const uint8_t* src_argb0,
 
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBSUBTRACTROW_AVX2
@@ -5033,7 +5033,7 @@ __declspec(naked) void SobelXRow_SSE2(const uint8_t* src_y0,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_SOBELXROW_SSE2
@@ -5086,7 +5086,7 @@ __declspec(naked) void SobelYRow_SSE2(const uint8_t* src_y0,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_SOBELYROW_SSE2
@@ -5138,7 +5138,7 @@ __declspec(naked) void SobelRow_SSE2(const uint8_t* src_sobelx,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_SOBELROW_SSE2
@@ -5168,7 +5168,7 @@ __declspec(naked) void SobelToPlaneRow_SSE2(const uint8_t* src_sobelx,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_SOBELTOPLANEROW_SSE2
@@ -5219,7 +5219,7 @@ __declspec(naked) void SobelXYRow_SSE2(const uint8_t* src_sobelx,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_SOBELXYROW_SSE2
@@ -5552,7 +5552,7 @@ __declspec(naked) LIBYUV_API void ARGBAffineRow_SSE2(const uint8_t* src_argb,
   l1b:
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBAFFINEROW_SSE2
@@ -5629,7 +5629,7 @@ __declspec(naked) void InterpolateRow_AVX2(uint8_t* dst_ptr,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_INTERPOLATEROW_AVX2
@@ -5713,7 +5713,7 @@ __declspec(naked) void InterpolateRow_SSSE3(uint8_t* dst_ptr,
   xloop99:
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -5740,7 +5740,7 @@ __declspec(naked) void ARGBShuffleRow_SSSE3(const uint8_t* src_argb,
     lea        edx, [edx + 32]
     sub        ecx, 8
     jg         wloop
-    ret
+    lse
   }
 }
 
@@ -5769,7 +5769,7 @@ __declspec(naked) void ARGBShuffleRow_AVX2(const uint8_t* src_argb,
     jg         wloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBSHUFFLEROW_AVX2
@@ -5813,7 +5813,7 @@ __declspec(naked) void I422ToYUY2Row_SSE2(const uint8_t* src_y,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -5850,7 +5850,7 @@ __declspec(naked) void I422ToUYVYRow_SSE2(const uint8_t* src_y,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -5908,7 +5908,7 @@ __declspec(naked) void ARGBPolynomialRow_SSE2(const uint8_t* src_argb,
     sub        ecx, 2
     jg         convertloop
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBPOLYNOMIALROW_SSE2
@@ -5947,7 +5947,7 @@ __declspec(naked) void ARGBPolynomialRow_AVX2(const uint8_t* src_argb,
     sub         ecx, 2
     jg          convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBPOLYNOMIALROW_AVX2
@@ -5985,7 +5985,7 @@ __declspec(naked) void HalfFloatRow_SSE2(const uint16_t* src,
     movdqu      [eax + edx - 16], xmm2
     sub         ecx, 8
     jg          convertloop
-    ret
+    lse
   }
 }
 #endif  // HAS_HALFFLOATROW_SSE2
@@ -6023,7 +6023,7 @@ __declspec(naked) void HalfFloatRow_AVX2(const uint16_t* src,
     sub         ecx, 16
     jg          convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_HALFFLOATROW_AVX2
@@ -6056,7 +6056,7 @@ __declspec(naked) void HalfFloatRow_F16C(const uint16_t* src,
     sub         ecx, 16
     jg          convertloop
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_HALFFLOATROW_F16C
@@ -6090,7 +6090,7 @@ __declspec(naked) void ARGBColorTableRow_X86(uint8_t* dst_argb,
     dec        ecx
     jg         convertloop
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBCOLORTABLEROW_X86
@@ -6122,7 +6122,7 @@ __declspec(naked) void RGBColorTableRow_X86(uint8_t* dst_argb,
     jg         convertloop
 
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_RGBCOLORTABLEROW_X86
@@ -6222,7 +6222,7 @@ __declspec(naked) void ARGBLumaColorTableRow_SSSE3(const uint8_t* src_argb,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 #endif  // HAS_ARGBLUMACOLORTABLEROW_SSSE3

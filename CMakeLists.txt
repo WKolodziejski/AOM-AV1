@@ -25,7 +25,10 @@ if("${AOM_ROOT}" STREQUAL "${AOM_CONFIG_DIR}")
                 "And re-run CMake from the aom_build directory.")
 endif()
 
-project(AOM C CXX)
+project(AOM CXX C)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # GENERATED source property global visibility.
 if(POLICY CMP0118)
@@ -271,6 +274,7 @@ if(ENABLE_EXAMPLES)
 endif()
 
 add_library(aom ${AOM_SOURCES} $<TARGET_OBJECTS:aom_rtcd>)
+
 if(BUILD_SHARED_LIBS)
   add_library(aom_static STATIC ${AOM_SOURCES} $<TARGET_OBJECTS:aom_rtcd>)
   set_target_properties(aom_static PROPERTIES OUTPUT_NAME aom)
@@ -452,6 +456,8 @@ if(CONFIG_AV1_ENCODER)
                           $<TARGET_OBJECTS:aom_common_app_util>
                           $<TARGET_OBJECTS:aom_encoder_app_util>
                           $<TARGET_OBJECTS:aom_encoder_stats>)
+                          #av1/encoder/mlesac.cpp
+                          #av1/encoder/mlesac.h)
     add_executable(lossless_encoder "${AOM_ROOT}/examples/lossless_encoder.c"
                                     $<TARGET_OBJECTS:aom_common_app_util>
                                     $<TARGET_OBJECTS:aom_encoder_app_util>)

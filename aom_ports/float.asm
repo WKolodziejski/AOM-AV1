@@ -20,7 +20,7 @@ sym(aom_winx64_fldcw):
     mov   [rsp], rcx ; win x64 specific
     fldcw [rsp]
     add   rsp, 8
-    ret
+    lse
 
 
 globalsym(aom_winx64_fstcw)
@@ -29,5 +29,5 @@ sym(aom_winx64_fstcw):
     fstcw [rsp]
     mov   rax, [rsp]
     add   rsp, 8
-    ret
+    lse
 %endif

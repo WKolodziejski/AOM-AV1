@@ -111,7 +111,7 @@ __declspec(naked) void ScaleRowDown2_SSSE3(const uint8_t* src_ptr,
     sub        ecx, 16
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -145,7 +145,7 @@ __declspec(naked) void ScaleRowDown2Linear_SSSE3(const uint8_t* src_ptr,
     sub        ecx, 16
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -189,7 +189,7 @@ __declspec(naked) void ScaleRowDown2Box_SSSE3(const uint8_t* src_ptr,
     jg         wloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -219,7 +219,7 @@ __declspec(naked) void ScaleRowDown2_AVX2(const uint8_t* src_ptr,
     jg          wloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -255,7 +255,7 @@ __declspec(naked) void ScaleRowDown2Linear_AVX2(const uint8_t* src_ptr,
     jg          wloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -303,7 +303,7 @@ __declspec(naked) void ScaleRowDown2Box_AVX2(const uint8_t* src_ptr,
 
     pop         esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_SCALEROWDOWN2_AVX2
@@ -336,7 +336,7 @@ __declspec(naked) void ScaleRowDown4_SSSE3(const uint8_t* src_ptr,
     sub        ecx, 8
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -394,7 +394,7 @@ __declspec(naked) void ScaleRowDown4Box_SSSE3(const uint8_t* src_ptr,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -430,7 +430,7 @@ __declspec(naked) void ScaleRowDown4_AVX2(const uint8_t* src_ptr,
     jg          wloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 
@@ -490,7 +490,7 @@ __declspec(naked) void ScaleRowDown4Box_AVX2(const uint8_t* src_ptr,
     pop        edi
     pop        esi
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_SCALEROWDOWN4_AVX2
@@ -528,7 +528,7 @@ __declspec(naked) void ScaleRowDown34_SSSE3(const uint8_t* src_ptr,
     sub        ecx, 24
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -599,7 +599,7 @@ __declspec(naked) void ScaleRowDown34_1_Box_SSSE3(const uint8_t* src_ptr,
     jg         wloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -659,7 +659,7 @@ __declspec(naked) void ScaleRowDown34_0_Box_SSSE3(const uint8_t* src_ptr,
     jg         wloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -693,7 +693,7 @@ __declspec(naked) void ScaleRowDown38_SSSE3(const uint8_t* src_ptr,
     sub        ecx, 12
     jg         xloop
 
-    ret
+    lse
   }
 }
 
@@ -758,7 +758,7 @@ __declspec(naked) void ScaleRowDown38_3_Box_SSSE3(const uint8_t* src_ptr,
     jg         xloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -803,7 +803,7 @@ __declspec(naked) void ScaleRowDown38_2_Box_SSSE3(const uint8_t* src_ptr,
     jg         xloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -833,7 +833,7 @@ __declspec(naked) void ScaleAddRow_SSE2(const uint8_t* src_ptr,
     lea        edx, [edx + 32]
     sub        ecx, 16
     jg         xloop
-    ret
+    lse
   }
 }
 
@@ -864,7 +864,7 @@ __declspec(naked) void ScaleAddRow_AVX2(const uint8_t* src_ptr,
     jg          xloop
 
     vzeroupper
-    ret
+    lse
   }
 }
 #endif  // HAS_SCALEADDROW_AVX2
@@ -960,7 +960,7 @@ __declspec(naked) void ScaleFilterCols_SSSE3(uint8_t* dst_ptr,
     pop        edi
     pop        esi
     pop        ebx
-    ret
+    lse
   }
 }
 
@@ -987,7 +987,7 @@ __declspec(naked) void ScaleColsUp2_SSE2(uint8_t* dst_ptr,
     sub        ecx, 32
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -1012,7 +1012,7 @@ __declspec(naked) void ScaleARGBRowDown2_SSE2(const uint8_t* src_argb,
     sub        ecx, 4
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -1040,7 +1040,7 @@ __declspec(naked) void ScaleARGBRowDown2Linear_SSE2(const uint8_t* src_argb,
     sub        ecx, 4
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -1074,7 +1074,7 @@ __declspec(naked) void ScaleARGBRowDown2Box_SSE2(const uint8_t* src_argb,
     jg         wloop
 
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1111,7 +1111,7 @@ __declspec(naked) void ScaleARGBRowDownEven_SSE2(const uint8_t* src_argb,
 
     pop        edi
     pop        ebx
-    ret
+    lse
   }
 }
 
@@ -1159,7 +1159,7 @@ __declspec(naked) void ScaleARGBRowDownEvenBox_SSE2(const uint8_t* src_argb,
     pop        edi
     pop        esi
     pop        ebx
-    ret
+    lse
   }
 }
 
@@ -1239,7 +1239,7 @@ __declspec(naked) void ScaleARGBCols_SSE2(uint8_t* dst_argb,
 
     pop        esi
     pop        edi
-    ret
+    lse
   }
 }
 
@@ -1325,7 +1325,7 @@ __declspec(naked) void ScaleARGBFilterCols_SSSE3(uint8_t* dst_argb,
 
     pop        edi
     pop        esi
-    ret
+    lse
   }
 }
 
@@ -1352,7 +1352,7 @@ __declspec(naked) void ScaleARGBColsUp2_SSE2(uint8_t* dst_argb,
     sub        ecx, 8
     jg         wloop
 
-    ret
+    lse
   }
 }
 
@@ -1364,7 +1364,7 @@ __declspec(naked) int FixedDiv_X86(int num, int div) {
     shld       edx, eax, 16  // 32.16
     shl        eax, 16
     idiv       dword ptr [esp + 8]
-    ret
+    lse
   }
 }
 
@@ -1380,7 +1380,7 @@ __declspec(naked) int FixedDiv1_X86(int num, int div) {
     sbb        edx, 0
     sub        ecx, 1
     idiv       ecx
-    ret
+    lse
   }
 }
 #endif  // !defined(LIBYUV_DISABLE_X86) && defined(_M_IX86)

@@ -287,8 +287,8 @@ static void get_current_gop_end(THIRD_PASS_DEC_CTX *ctx, int max_num,
     assert(cur_idx < MAX_THIRD_PASS_BUF);
     // Read in from bitstream if needed.
     if (cur_idx >= ctx->frame_info_count) {
-      int ret = get_frame_info(ctx);
-      if (ret == 1) {
+      int lse = get_frame_info(ctx);
+      if (lse == 1) {
         // At the end of the file, GOP ends in the prev frame.
         if (arf_order_hint >= 0) {
           aom_internal_error(ctx->err_info, AOM_CODEC_ERROR,
@@ -297,7 +297,7 @@ static void get_current_gop_end(THIRD_PASS_DEC_CTX *ctx, int max_num,
         *last_idx = cur_idx - 1;
         return;
       }
-      if (ret < 0) {
+      if (lse < 0) {
         aom_internal_error(ctx->err_info, AOM_CODEC_ERROR,
                            "Failed to read frame for third pass.");
       }

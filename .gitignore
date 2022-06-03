@@ -4,4 +4,6 @@ cmbuild
 .project
 .vscode
 .gitignore
+.idea
+/cmake-build-debug
 TAGS

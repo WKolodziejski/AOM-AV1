@@ -121,15 +121,20 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
       params_by_motion[i].num_inliers = 0;
     }
 
+    fprintf(stderr, "FRAMES: %d,%d\n", frame + ref_frame_dist - 1, frame - 1);
+
+    // Faz a busca dos parametros
     av1_compute_global_motion(model, src_buffer, src_width, src_height,
                               src_stride, src_corners, num_src_corners,
                               ref_buf[frame], cpi->common.seq_params->bit_depth,
                               gm_estimation_type, inliers_by_motion,
                               params_by_motion, RANSAC_NUM_MOTIONS);
+
     int64_t ref_frame_error = 0;
     for (i = 0; i < RANSAC_NUM_MOTIONS; ++i) {
       if (inliers_by_motion[i] == 0) continue;
 
+      // Converte os parametros para warp matrix
       params_this_motion = params_by_motion[i].params;
       av1_convert_model_to_params(params_this_motion, &tmp_wm_params);
 
@@ -153,6 +158,8 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
             cpi->source->y_buffer, src_width, src_height, src_stride,
             GM_REFINEMENT_COUNT, best_warp_error, segment_map, segment_map_w,
             erroradv_threshold);
+
+        fprintf(stderr, "ERROR: %ld\n", warp_error);
 
         if (warp_error < best_warp_error) {
           best_warp_error = warp_error;
@@ -434,10 +441,10 @@ static AOM_INLINE void global_motion_estimation(AV1_COMP *cpi) {
 
   alloc_global_motion_data(params_by_motion, &segment_map,
                            gm_info->segment_map_w, gm_info->segment_map_h);
-
   // Compute global motion w.r.t. past reference frames and future reference
   // frames
   for (int dir = 0; dir < MAX_DIRECTIONS; dir++) {
+    //printf("REF FRAMES: %d\n", gm_info->num_ref_frames[dir]);
     if (gm_info->num_ref_frames[dir] > 0)
       compute_global_motion_for_references(
           cpi, gm_info->ref_buf, gm_info->reference_frames[dir],

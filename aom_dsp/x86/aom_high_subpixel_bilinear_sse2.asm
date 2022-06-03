@@ -199,7 +199,7 @@ sym(aom_highbd_filter_block1d4_v2_sse2):
     pop         rsi
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_highbd_filter_block1d8_v2_sse2)
 sym(aom_highbd_filter_block1d8_v2_sse2):
@@ -233,7 +233,7 @@ sym(aom_highbd_filter_block1d8_v2_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_highbd_filter_block1d16_v2_sse2)
 sym(aom_highbd_filter_block1d16_v2_sse2):
@@ -269,7 +269,7 @@ sym(aom_highbd_filter_block1d16_v2_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_highbd_filter_block1d4_h2_sse2)
 sym(aom_highbd_filter_block1d4_h2_sse2):
@@ -294,7 +294,7 @@ sym(aom_highbd_filter_block1d4_h2_sse2):
     pop         rsi
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_highbd_filter_block1d8_h2_sse2)
 sym(aom_highbd_filter_block1d8_h2_sse2):
@@ -328,7 +328,7 @@ sym(aom_highbd_filter_block1d8_h2_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_highbd_filter_block1d16_h2_sse2)
 sym(aom_highbd_filter_block1d16_h2_sse2):
@@ -364,4 +364,4 @@ sym(aom_highbd_filter_block1d16_h2_sse2):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse

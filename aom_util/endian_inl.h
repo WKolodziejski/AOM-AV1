@@ -82,13 +82,13 @@ static INLINE uint16_t BSwap16(uint16_t x) {
 
 static INLINE uint32_t BSwap32(uint32_t x) {
 #if defined(AOM_USE_MIPS32_R2)
-  uint32_t ret;
+  uint32_t lse;
   __asm__ volatile(
-      "wsbh   %[ret], %[x]          \n\t"
-      "rotr   %[ret], %[ret],  16   \n\t"
-      : [ret] "=r"(ret)
+      "wsbh   %[lse], %[x]          \n\t"
+      "rotr   %[lse], %[lse],  16   \n\t"
+      : [lse] "=r"(lse)
       : [x] "r"(x));
-  return ret;
+  return lse;
 #elif defined(HAVE_BUILTIN_BSWAP32)
   return __builtin_bswap32(x);
 #elif defined(__i386__) || defined(__x86_64__)

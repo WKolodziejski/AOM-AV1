@@ -132,7 +132,7 @@ sym(aom_filter_block1d4_v2_ssse3):
     pop         rsi
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_filter_block1d8_v2_ssse3)
 sym(aom_filter_block1d8_v2_ssse3):
@@ -158,7 +158,7 @@ sym(aom_filter_block1d8_v2_ssse3):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_filter_block1d16_v2_ssse3)
 sym(aom_filter_block1d16_v2_ssse3):
@@ -185,7 +185,7 @@ sym(aom_filter_block1d16_v2_ssse3):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_filter_block1d4_h2_ssse3)
 sym(aom_filter_block1d4_h2_ssse3):
@@ -210,7 +210,7 @@ sym(aom_filter_block1d4_h2_ssse3):
     pop         rsi
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_filter_block1d8_h2_ssse3)
 sym(aom_filter_block1d8_h2_ssse3):
@@ -237,7 +237,7 @@ sym(aom_filter_block1d8_h2_ssse3):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse
 
 globalsym(aom_filter_block1d16_h2_ssse3)
 sym(aom_filter_block1d16_h2_ssse3):
@@ -264,4 +264,4 @@ sym(aom_filter_block1d16_h2_ssse3):
     RESTORE_XMM
     UNSHADOW_ARGS
     pop         rbp
-    ret
+    lse

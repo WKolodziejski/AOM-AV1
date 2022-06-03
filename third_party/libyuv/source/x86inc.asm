@@ -120,8 +120,8 @@ CPU amdnop
 ; Pops anything that was pushed by PROLOGUE, and returns.
 
 ; REP_RET:
-; Same, but if it doesn't pop anything it becomes a 2-byte ret, for athlons
-; which are slow when a normal ret follows a branch.
+; Same, but if it doesn't pop anything it becomes a 2-byte lse, for athlons
+; which are slow when a normal lse follows a branch.
 
 ; registers:
 ; rN and rNq are the native-size register holding function argument N
@@ -378,7 +378,7 @@ DECLARE_REG 14, R15, 120
 %if mmsize == 32
     vzeroupper
 %endif
-    ret
+    lse
 %endmacro
 
 %elif ARCH_X86_64 ; *nix x64 ;=============================================
@@ -416,7 +416,7 @@ DECLARE_REG 14, R15, 72
 %if mmsize == 32
     vzeroupper
 %endif
-    ret
+    lse
 %endmacro
 
 %else ; X86_32 ;==============================================================
@@ -459,7 +459,7 @@ DECLARE_ARG 7, 8, 9, 10, 11, 12, 13, 14
 %if mmsize == 32
     vzeroupper
 %endif
-    ret
+    lse
 %endmacro
 
 %endif ;======================================================================
@@ -475,7 +475,7 @@ DECLARE_ARG 7, 8, 9, 10, 11, 12, 13, 14
     %if has_epilogue
         RET
     %else
-        rep ret
+        rep lse
     %endif
 %endmacro
 

@@ -223,7 +223,7 @@
       %%get_got:
       mov %1, [esp]
       add %1, _GLOBAL_OFFSET_TABLE_ + $$ - %%sub_offset wrt ..gotpc
-      ret
+      lse
       %%exitGG:
       %undef GLOBAL
       %define GLOBAL(x) x + %1 wrt ..gotoff

@@ -28,6 +28,8 @@
 #include "av1/encoder/corner_match.h"
 #include "av1/encoder/ransac.h"
 
+#include "av1/encoder/william/sac.h"
+
 #define MIN_INLIER_PROB 0.1
 
 #define MIN_TRANS_THRESH (1 * GM_TRANS_DECODE_FACTOR)
@@ -378,11 +380,18 @@ static void get_inliers_from_indices(MotionModel *params,
                                      int *correspondences) {
   int *inliers_tmp = (int *)aom_malloc(2 * MAX_CORNERS * sizeof(*inliers_tmp));
   memset(inliers_tmp, 0, 2 * MAX_CORNERS * sizeof(*inliers_tmp));
+//
+//  fprintf(stderr, "INLIERS: %d\n", params->num_inliers);
 
   for (int i = 0; i < params->num_inliers; i++) {
     int index = params->inliers[i];
     inliers_tmp[2 * i] = correspondences[4 * index];
     inliers_tmp[2 * i + 1] = correspondences[4 * index + 1];
+//
+//    fprintf(stderr, "%d\n", correspondences[4 * index]);
+//    fprintf(stderr, "%d\n", correspondences[4 * index + 1]);
+//    fprintf(stderr, "%d\n", correspondences[4 * index + 2]);
+//    fprintf(stderr, "%d\n", correspondences[4 * index + 3]);
   }
   memcpy(params->inliers, inliers_tmp, sizeof(*inliers_tmp) * 2 * MAX_CORNERS);
   aom_free(inliers_tmp);
@@ -429,26 +438,61 @@ static int compute_global_motion_feature_based(
   int *correspondences;
   int ref_corners[2 * MAX_CORNERS];
   unsigned char *ref_buffer = ref->y_buffer;
-  RansacFunc ransac = av1_get_ransac_type(type);
+  //RansacFunc ransac = av1_get_ransac_type(type);
 
   if (ref->flags & YV12_FLAG_HIGHBITDEPTH) {
     ref_buffer = av1_downconvert_frame(ref, bit_depth);
   }
 
+//  fprintf(stderr, "SRC BUFFER: %dx%d\n", src_width, src_height);
+//
+//  for (int j = 0; j < src_stride * src_height; ++j) {
+//    if (j % src_stride < src_width)
+//      fprintf(stderr, "%d\n", src_buffer[j]);
+//  }
+//
+//  fprintf(stderr, "REF BUFFER: %dx%d\n", ref->y_width, ref->y_height);
+//
+//  for (int j = 0; j < ref->y_stride * ref->y_height; ++j) {
+//    if (j % ref->y_stride < ref->y_width)
+//      fprintf(stderr, "%d\n", ref_buffer[j]);
+//  }
+
   num_ref_corners =
       av1_fast_corner_detect(ref_buffer, ref->y_width, ref->y_height,
                              ref->y_stride, ref_corners, MAX_CORNERS);
 
+//  fprintf(stderr, "SRC CORNERS: %d\n", num_src_corners);
+//
+//  for (int j = 0; j < num_src_corners * 2; ++j) {
+//    fprintf(stderr, "%d\n", src_corners[j]);
+//  }
+//
+//  fprintf(stderr, "REF CORNERS: %d\n", num_ref_corners);
+//
+//  for (int j = 0; j < num_ref_corners * 2; ++j) {
+//    fprintf(stderr, "%d\n", ref_corners[j]);
+//  }
+
   // find correspondences between the two images
-  correspondences =
-      (int *)malloc(num_src_corners * 4 * sizeof(*correspondences));
+  correspondences = (int *)malloc(num_src_corners * 4 * sizeof(*correspondences));
+
   num_correspondences = av1_determine_correspondence(
       src_buffer, (int *)src_corners, num_src_corners, ref_buffer,
       (int *)ref_corners, num_ref_corners, src_width, src_height, src_stride,
       ref->y_stride, correspondences);
 
-  ransac(correspondences, num_correspondences, num_inliers_by_motion,
-         params_by_motion, num_motions);
+  sac(correspondences, num_correspondences, num_inliers_by_motion,
+      params_by_motion);
+
+//  ransac(correspondences, num_correspondences, num_inliers_by_motion,
+//         params_by_motion, num_motions);
+
+//  fprintf(stderr, "RANSAC: %d\n", num_correspondences);
+//
+//  for (int j = 0; j < num_correspondences * 4; ++j) {
+//    fprintf(stderr, "%d\n", correspondences[j]);
+//  }
 
   // Set num_inliers = 0 for motions with too few inliers so they are ignored.
   for (i = 0; i < num_motions; ++i) {
@@ -459,6 +503,14 @@ static int compute_global_motion_feature_based(
       get_inliers_from_indices(&params_by_motion[i], correspondences);
     }
   }
+
+  //  for (int j = 0; j < params_by_motion->num_inliers; ++j) {
+  //    int k = params_by_motion->inliers[j];
+  ////    fprintf(stderr, "%d\n", correspondences[4 * k]);
+  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 1]);
+  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 2]);
+  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 3]);
+  //  }
 
   free(correspondences);
 

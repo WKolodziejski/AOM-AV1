@@ -226,6 +226,7 @@ static INLINE int convert_to_trans_prec(int allow_hp, int coor) {
   else
     return ROUND_POWER_OF_TWO_SIGNED(coor, WARPEDMODEL_PREC_BITS - 2) * 2;
 }
+
 static INLINE void integer_mv_precision(MV *mv) {
   int mod = (mv->row % 8);
   if (mod != 0) {

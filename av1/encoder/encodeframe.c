@@ -1535,7 +1535,7 @@ static AOM_INLINE void encode_frame_internal(AV1_COMP *cpi) {
 #if CONFIG_COLLECT_COMPONENT_TIMING
   start_timing(cpi, av1_compute_global_motion_time);
 #endif
-  av1_compute_global_motion_facade(cpi);
+  av1_compute_global_motion_facade(cpi); //calcula global motion
 #if CONFIG_COLLECT_COMPONENT_TIMING
   end_timing(cpi, av1_compute_global_motion_time);
 #endif
@@ -1574,7 +1574,7 @@ static AOM_INLINE void encode_frame_internal(AV1_COMP *cpi) {
     if (AOMMIN(mt_info->num_workers, cm->tiles.cols * cm->tiles.rows) > 1)
       av1_encode_tiles_mt(cpi);
     else
-      encode_tiles(cpi);
+      encode_tiles(cpi); //codifica blocos
   }
 
   // If intrabc is allowed but never selected, reset the allow_intrabc flag.
@@ -1882,8 +1882,7 @@ void av1_encode_frame(AV1_COMP *cpi) {
 
   rdc->newmv_or_intra_blocks = 0;
 
-  if (cpi->sf.hl_sf.frame_parameter_update ||
-      cpi->sf.rt_sf.use_comp_ref_nonrd) {
+  if (cpi->sf.hl_sf.frame_parameter_update || cpi->sf.rt_sf.use_comp_ref_nonrd) {
     if (frame_is_intra_only(cm))
       current_frame->reference_mode = SINGLE_REFERENCE;
     else
@@ -1897,7 +1896,7 @@ void av1_encode_frame(AV1_COMP *cpi) {
     rdc->compound_ref_used_flag = 0;
     rdc->skip_mode_used_flag = 0;
 
-    encode_frame_internal(cpi);
+    encode_frame_internal(cpi); // <--- global motion
 
     if (current_frame->reference_mode == REFERENCE_MODE_SELECT) {
       // Use a flag that includes 4x4 blocks
@@ -1929,6 +1928,6 @@ void av1_encode_frame(AV1_COMP *cpi) {
     // from one using compound prediction to one using single reference.
     if (current_frame->reference_mode == REFERENCE_MODE_SELECT)
       current_frame->reference_mode = SINGLE_REFERENCE;
-    encode_frame_internal(cpi);
+    encode_frame_internal(cpi); // <--- global motio
   }
 }
