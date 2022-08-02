@@ -10,7 +10,7 @@ class MSAC : virtual public RANSAC<Model, Datum, Data> {
  public:
   explicit MSAC(Estimator<Model, Datum, Data> *estimator)
       : RANSAC<Model, Datum, Data>(estimator) {
-    fprintf(stderr, "---MSAC---\n");
+    //fprintf(stderr, "---MSAC---\n");
   }
 
  protected:

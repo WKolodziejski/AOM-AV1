@@ -139,7 +139,6 @@ list(APPEND AOM_AV1_ENCODER_SOURCES
         "${AOM_ROOT}/av1/encoder/william/robust/MLESAC.cpp"
         "${AOM_ROOT}/av1/encoder/william/robust/MSAC.cpp"
         "${AOM_ROOT}/av1/encoder/william/robust/RANSAC.cpp"
-        "${AOM_ROOT}/av1/encoder/william/robust/RTL.cpp"
         "${AOM_ROOT}/av1/encoder/william/robust/sac.cpp"
 
         "${AOM_ROOT}/av1/av1_cx_iface.c"

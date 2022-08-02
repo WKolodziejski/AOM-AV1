@@ -11,7 +11,7 @@ class LMedS : virtual public RANSAC<Model, Datum, Data> {
  public:
   explicit LMedS(Estimator<Model, Datum, Data> *estimator)
       : RANSAC<Model, Datum, Data>(estimator) {
-    fprintf(stderr, "---LMedS---\n");
+    //fprintf(stderr, "---LMedS---\n");
   }
 
  protected:

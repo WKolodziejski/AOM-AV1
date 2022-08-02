@@ -15,7 +15,7 @@ class MLESAC : virtual public RANSAC<Model, Datum, Data> {
   explicit MLESAC(Estimator<Model, Datum, Data> *estimator)
       : RANSAC<Model, Datum, Data>(estimator) {
     //dataError2 = nullptr;
-    fprintf(stderr, "---MLESAC---\n");
+    //fprintf(stderr, "---MLESAC---\n");
   }
 
  protected:

@@ -58,8 +58,7 @@ void estimate(Correspondence *correspondences, int num_correspondences,
   num_inliers_by_motion[0] = params_by_motion->num_inliers;
 
   // Pontos: inliers / outliers
-  fprintf(stderr, "%d:\t %d / %d\n", num_correspondences,
-          num_inliers_by_motion[0],
+  fprintf(stderr, "%d / %d\n", num_inliers_by_motion[0],
           num_correspondences - num_inliers_by_motion[0]);
 
   delete estimator;
