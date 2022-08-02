@@ -28,7 +28,7 @@
 #include "av1/encoder/corner_match.h"
 #include "av1/encoder/ransac.h"
 
-#include "av1/encoder/william/sac.h"
+#include "av1/encoder/william/william.h"
 
 #define MIN_INLIER_PROB 0.1
 
@@ -380,19 +380,13 @@ static void get_inliers_from_indices(MotionModel *params,
                                      int *correspondences) {
   int *inliers_tmp = (int *)aom_malloc(2 * MAX_CORNERS * sizeof(*inliers_tmp));
   memset(inliers_tmp, 0, 2 * MAX_CORNERS * sizeof(*inliers_tmp));
-//
-//  fprintf(stderr, "INLIERS: %d\n", params->num_inliers);
 
   for (int i = 0; i < params->num_inliers; i++) {
     int index = params->inliers[i];
     inliers_tmp[2 * i] = correspondences[4 * index];
     inliers_tmp[2 * i + 1] = correspondences[4 * index + 1];
-//
-//    fprintf(stderr, "%d\n", correspondences[4 * index]);
-//    fprintf(stderr, "%d\n", correspondences[4 * index + 1]);
-//    fprintf(stderr, "%d\n", correspondences[4 * index + 2]);
-//    fprintf(stderr, "%d\n", correspondences[4 * index + 3]);
   }
+
   memcpy(params->inliers, inliers_tmp, sizeof(*inliers_tmp) * 2 * MAX_CORNERS);
   aom_free(inliers_tmp);
 }
@@ -427,6 +421,24 @@ void av1_compute_feature_segmentation_map(uint8_t *segment_map, int width,
     memset(segment_map, 1, width * height * sizeof(*segment_map));
 }
 
+static int compute_global_motion_william(
+    TransformationType type, unsigned char *src_buffer, int src_width,
+    int src_height, int src_stride, YV12_BUFFER_CONFIG *ref, int bit_depth,
+    int *num_inliers_by_motion, MotionModel *params_by_motion) {
+  unsigned char *ref_buffer = ref->y_buffer;
+
+  if (ref->flags & YV12_FLAG_HIGHBITDEPTH) {
+    ref_buffer = av1_downconvert_frame(ref, bit_depth);
+  }
+
+  // main function call
+  compute(src_buffer, src_width, src_height, src_stride, ref_buffer,
+          ref->y_width, ref->y_height, ref->y_stride, num_inliers_by_motion,
+          params_by_motion, type, FAST, FLANN, RANSAC);
+
+  return num_inliers_by_motion[0] > 0 ? 1 : 0;
+}
+
 static int compute_global_motion_feature_based(
     TransformationType type, unsigned char *src_buffer, int src_width,
     int src_height, int src_stride, int *src_corners, int num_src_corners,
@@ -438,61 +450,30 @@ static int compute_global_motion_feature_based(
   int *correspondences;
   int ref_corners[2 * MAX_CORNERS];
   unsigned char *ref_buffer = ref->y_buffer;
-  //RansacFunc ransac = av1_get_ransac_type(type);
+  RansacFunc ransac = av1_get_ransac_type(type);
 
   if (ref->flags & YV12_FLAG_HIGHBITDEPTH) {
     ref_buffer = av1_downconvert_frame(ref, bit_depth);
   }
 
-//  fprintf(stderr, "SRC BUFFER: %dx%d\n", src_width, src_height);
-//
-//  for (int j = 0; j < src_stride * src_height; ++j) {
-//    if (j % src_stride < src_width)
-//      fprintf(stderr, "%d\n", src_buffer[j]);
-//  }
-//
-//  fprintf(stderr, "REF BUFFER: %dx%d\n", ref->y_width, ref->y_height);
-//
-//  for (int j = 0; j < ref->y_stride * ref->y_height; ++j) {
-//    if (j % ref->y_stride < ref->y_width)
-//      fprintf(stderr, "%d\n", ref_buffer[j]);
-//  }
+  num_src_corners = av1_fast_corner_detect(
+      src_buffer, src_width, src_height, src_stride, src_corners, MAX_CORNERS);
 
   num_ref_corners =
       av1_fast_corner_detect(ref_buffer, ref->y_width, ref->y_height,
                              ref->y_stride, ref_corners, MAX_CORNERS);
 
-//  fprintf(stderr, "SRC CORNERS: %d\n", num_src_corners);
-//
-//  for (int j = 0; j < num_src_corners * 2; ++j) {
-//    fprintf(stderr, "%d\n", src_corners[j]);
-//  }
-//
-//  fprintf(stderr, "REF CORNERS: %d\n", num_ref_corners);
-//
-//  for (int j = 0; j < num_ref_corners * 2; ++j) {
-//    fprintf(stderr, "%d\n", ref_corners[j]);
-//  }
-
   // find correspondences between the two images
-  correspondences = (int *)malloc(num_src_corners * 4 * sizeof(*correspondences));
+  correspondences =
+      (int *)malloc(num_src_corners * 4 * sizeof(*correspondences));
 
   num_correspondences = av1_determine_correspondence(
       src_buffer, (int *)src_corners, num_src_corners, ref_buffer,
       (int *)ref_corners, num_ref_corners, src_width, src_height, src_stride,
       ref->y_stride, correspondences);
 
-  sac(correspondences, num_correspondences, num_inliers_by_motion,
-      params_by_motion);
-
-//  ransac(correspondences, num_correspondences, num_inliers_by_motion,
-//         params_by_motion, num_motions);
-
-//  fprintf(stderr, "RANSAC: %d\n", num_correspondences);
-//
-//  for (int j = 0; j < num_correspondences * 4; ++j) {
-//    fprintf(stderr, "%d\n", correspondences[j]);
-//  }
+  ransac(correspondences, num_correspondences, num_inliers_by_motion,
+         params_by_motion, num_motions);
 
   // Set num_inliers = 0 for motions with too few inliers so they are ignored.
   for (i = 0; i < num_motions; ++i) {
@@ -503,14 +484,6 @@ static int compute_global_motion_feature_based(
       get_inliers_from_indices(&params_by_motion[i], correspondences);
     }
   }
-
-  //  for (int j = 0; j < params_by_motion->num_inliers; ++j) {
-  //    int k = params_by_motion->inliers[j];
-  ////    fprintf(stderr, "%d\n", correspondences[4 * k]);
-  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 1]);
-  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 2]);
-  ////    fprintf(stderr, "%d\n", correspondences[4 * k + 3]);
-  //  }
 
   free(correspondences);
 
@@ -739,7 +712,7 @@ static INLINE void image_difference(const uint8_t *src, int src_stride,
 }
 */
 
-// Compute an image gradient using a sobel filter.
+// compute an image gradient using a sobel filter.
 // If dir == 1, compute the x gradient. If dir == 0, compute y. This function
 // assumes the images have been padded so that they can be processed in units
 // of 8.
@@ -803,7 +776,7 @@ static INLINE void update_level_dims(ImagePyramid *frm_pyr, int level) {
           (2 * frm_pyr->pad_size + frm_pyr->heights[level - 1]);
 }
 
-// Compute coarse to fine pyramids for a frame
+// compute coarse to fine pyramids for a frame
 static void compute_flow_pyramids(unsigned char *frm, const int frm_width,
                                   const int frm_height, const int frm_stride,
                                   int n_levels, int pad_size, int compute_grad,
@@ -915,7 +888,7 @@ static void compute_flow_field(ImagePyramid *frm_pyr, ImagePyramid *ref_pyr,
 
   assert(frm_pyr->n_levels == ref_pyr->n_levels);
 
-  // Compute flow field from coarsest to finest level of the pyramid
+  // compute flow field from coarsest to finest level of the pyramid
   for (int level = frm_pyr->n_levels - 1; level >= 0; --level) {
     cur_width = frm_pyr->widths[level];
     cur_height = frm_pyr->heights[level];
@@ -1049,10 +1022,14 @@ int av1_compute_global_motion(TransformationType type,
                               MotionModel *params_by_motion, int num_motions) {
   switch (gm_estimation_type) {
     case GLOBAL_MOTION_FEATURE_BASED:
-      return compute_global_motion_feature_based(
-          type, src_buffer, src_width, src_height, src_stride, src_corners,
-          num_src_corners, ref, bit_depth, num_inliers_by_motion,
-          params_by_motion, num_motions);
+      return compute_global_motion_william(
+          type, src_buffer, src_width, src_height, src_stride, ref, bit_depth,
+          num_inliers_by_motion, params_by_motion);
+
+      //      return compute_global_motion_feature_based(
+      //          type, src_buffer, src_width, src_height, src_stride,
+      //          src_corners, num_src_corners, ref, bit_depth,
+      //          num_inliers_by_motion, params_by_motion, num_motions);
     case GLOBAL_MOTION_DISFLOW_BASED:
       return compute_global_motion_disflow_based(
           type, src_buffer, src_width, src_height, src_stride, src_corners,

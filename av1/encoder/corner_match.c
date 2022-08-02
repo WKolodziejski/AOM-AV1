@@ -153,7 +153,8 @@ int av1_determine_correspondence(unsigned char *src, int *src_corners,
     double template_norm;
     int best_match_j = -1;
 
-    if (!is_eligible_point(src_corners[2 * i], src_corners[2 * i + 1], width, height))
+    if (!is_eligible_point(src_corners[2 * i], src_corners[2 * i + 1], width,
+                           height))
       continue;
 
     for (j = 0; j < num_ref_corners; ++j) {
@@ -163,10 +164,10 @@ int av1_determine_correspondence(unsigned char *src, int *src_corners,
                              height))
         continue;
 
-//      if (!is_eligible_distance(src_corners[2 * i], src_corners[2 * i + 1],
-//                                ref_corners[2 * j], ref_corners[2 * j + 1],
-//                                width, height))
-//        continue;
+      if (!is_eligible_distance(src_corners[2 * i], src_corners[2 * i + 1],
+                                ref_corners[2 * j], ref_corners[2 * j + 1],
+                                width, height))
+        continue;
 
       match_ncc = av1_compute_cross_correlation(
           src, src_stride, src_corners[2 * i], src_corners[2 * i + 1], ref,
@@ -186,31 +187,14 @@ int av1_determine_correspondence(unsigned char *src, int *src_corners,
       correspondences[num_correspondences].x = src_corners[2 * i];
       correspondences[num_correspondences].y = src_corners[2 * i + 1];
       correspondences[num_correspondences].rx = ref_corners[2 * best_match_j];
-      correspondences[num_correspondences].ry = ref_corners[2 * best_match_j + 1];
+      correspondences[num_correspondences].ry =
+          ref_corners[2 * best_match_j + 1];
       num_correspondences++;
     }
   }
 
-//  fprintf(stderr, "CORRESPONDENCES: %d\n", num_correspondences);
-//
-//  for (int k = 0; k < num_correspondences; ++k) {
-//    fprintf(stderr, "%d\n", correspondences[k].x);
-//    fprintf(stderr, "%d\n", correspondences[k].y);
-//    fprintf(stderr, "%d\n", correspondences[k].rx);
-//    fprintf(stderr, "%d\n", correspondences[k].ry);
-//  }
-
   improve_correspondence(src, ref, width, height, src_stride, ref_stride,
                          correspondences, num_correspondences);
-
-//  fprintf(stderr, "IMPROVED CORRESPONDENCES: %d\n", num_correspondences);
-//
-//  for (int k = 0; k < num_correspondences; ++k) {
-//    fprintf(stderr, "%d\n", correspondences[k].x);
-//    fprintf(stderr, "%d\n", correspondences[k].y);
-//    fprintf(stderr, "%d\n", correspondences[k].rx);
-//    fprintf(stderr, "%d\n", correspondences[k].ry);
-//  }
 
   return num_correspondences;
 }

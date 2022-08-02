@@ -107,11 +107,15 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
   const int ref_frame_dist = get_relative_dist(
       &cm->seq_params->order_hint_info, cm->current_frame.order_hint,
       cm->cur_frame->ref_order_hints[frame - LAST_FRAME]);
+
   const GlobalMotionEstimationType gm_estimation_type =
       cm->seq_params->order_hint_info.enable_order_hint &&
               abs(ref_frame_dist) <= 2 && do_adaptive_gm_estimation
           ? GLOBAL_MOTION_DISFLOW_BASED
           : GLOBAL_MOTION_FEATURE_BASED;
+
+  int selected = 0;
+
   for (model = ROTZOOM; model < GLOBAL_TRANS_TYPES_ENC; ++model) {
     int64_t best_warp_error = INT64_MAX;
     // Initially set all params to identity.
@@ -120,8 +124,6 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
              (MAX_PARAMDIM - 1) * sizeof(*(params_by_motion[i].params)));
       params_by_motion[i].num_inliers = 0;
     }
-
-    fprintf(stderr, "FRAMES: %d,%d\n", frame + ref_frame_dist - 1, frame - 1);
 
     // Faz a busca dos parametros
     av1_compute_global_motion(model, src_buffer, src_width, src_height,
@@ -159,8 +161,6 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
             GM_REFINEMENT_COUNT, best_warp_error, segment_map, segment_map_w,
             erroradv_threshold);
 
-        fprintf(stderr, "ERROR: %ld\n", warp_error);
-
         if (warp_error < best_warp_error) {
           best_warp_error = warp_error;
           // Save the wm_params modified by
@@ -168,6 +168,8 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
           // avoid rerunning refine() below.
           memcpy(&(cm->global_motion[frame]), &tmp_wm_params,
                  sizeof(WarpedMotionParams));
+
+          selected = 1;
         }
       }
     }
@@ -197,10 +199,13 @@ static AOM_INLINE void compute_global_motion_for_ref_frame(
             gm_get_params_cost(&cm->global_motion[frame], ref_params,
                                cm->features.allow_high_precision_mv))) {
       cm->global_motion[frame] = default_warp_params;
+      selected = 0;
     }
 
     if (cm->global_motion[frame].wmtype != IDENTITY) break;
   }
+
+  fprintf(stderr, selected ? "SELECTED\n" : "DISCARDED\n");
 }
 
 // Computes global motion for the given reference frame.
@@ -423,14 +428,16 @@ static AOM_INLINE void setup_global_motion_info_params(AV1_COMP *cpi) {
   qsort(gm_info->reference_frames[1], gm_info->num_ref_frames[1],
         sizeof(gm_info->reference_frames[1][0]), compare_distance);
 
-  gm_info->num_src_corners = -1;
+  // TODO: desabilitado para evitar duplo processamento.
+  //  Movido para compute_global_motion_feature_based
+  gm_info->num_src_corners = 0;  // Era -1, mas falha em um assert
   // If atleast one valid reference frame exists in past/future directions,
   // compute interest points of source frame using FAST features.
-  if (gm_info->num_ref_frames[0] > 0 || gm_info->num_ref_frames[1] > 0) {
-    gm_info->num_src_corners = av1_fast_corner_detect(
-        gm_info->src_buffer, source->y_width, source->y_height,
-        source->y_stride, gm_info->src_corners, MAX_CORNERS);
-  }
+  //  if (gm_info->num_ref_frames[0] > 0 || gm_info->num_ref_frames[1] > 0) {
+  //    gm_info->num_src_corners = av1_fast_corner_detect(
+  //        gm_info->src_buffer, source->y_width, source->y_height,
+  //        source->y_stride, gm_info->src_corners, MAX_CORNERS);
+  //  }
 }
 
 // Computes global motion w.r.t. valid reference frames.
@@ -444,7 +451,6 @@ static AOM_INLINE void global_motion_estimation(AV1_COMP *cpi) {
   // Compute global motion w.r.t. past reference frames and future reference
   // frames
   for (int dir = 0; dir < MAX_DIRECTIONS; dir++) {
-    //printf("REF FRAMES: %d\n", gm_info->num_ref_frames[dir]);
     if (gm_info->num_ref_frames[dir] > 0)
       compute_global_motion_for_references(
           cpi, gm_info->ref_buf, gm_info->reference_frames[dir],
